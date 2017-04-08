@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lasagna Dinner Auction</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<div style="background-color: #A9D0F5">
+<div style="display:inline-block"><h4><%=link_to "USERS", root_path %></h4> </div>
+
+<div style="display:inline-block"><%= form_tag users_path, method: 'get' do %>
+      <%= text_field_tag :search, nil, placeholder: "Search users (number or name)" %>
+      <%= submit_tag "Search", name: nil %>
+<% end %></div>
+
+<div style="display:inline-block"><h4 ><%=link_to "MULTI-WINNER AUCTION", new_auction_path %></h4></div>
+
+</div>
+<div>
+<%= yield %>
+<div>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+</style>
+
+<%= link_to 'New User', new_user_path %>
+
+<h1>Listing users</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>NUMBER</th>
+      <th>Name</th>
+      <th>Paid</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <tr class="<%= cycle('even', 'odd') %>">
+        <td><%= user.number %></td>
+
+        <td><%= link_to user.name, user %></td>
+        <td><%= user.paid ? "Paid" : "Unpaid" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
