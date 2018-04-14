@@ -4,22 +4,20 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.search(params[:search]).order(:number)
+    @users = User.search(params[:search]).order(:id)
   end
 
   # GET /users/1
   # GET /users/1.json
   def show
     @auction = Auction.new
-    @auctions = @user.auctions.sort_by{|a| a.paid}
+    @auctions = @user.auctions.sort_by{ |a| a.paid? ? 1 : 0 }
     @total = @user.total_due
   end
 
   # GET /users/new
   def new
     @user = User.new
-    @number = 1
-    @number += 1 while is_not_a_valid_number?(@number)
   end
 
   # GET /users/1/edit
@@ -33,7 +31,8 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to users_url, notice: 'User was successfully created.' }
+        Rails.cache.write 'last_user_number', @user.id 
+        format.html { redirect_to users_url }
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new }
@@ -90,12 +89,8 @@ class UsersController < ApplicationController
       @user = User.find(params[:id])
     end
 
-    def is_not_a_valid_number?(number)
-      User.find_by(number: number).present?
-    end
-
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:name, :number, :phone_number)
+      params.require(:user).permit(:name, :phone_number)
     end
 end

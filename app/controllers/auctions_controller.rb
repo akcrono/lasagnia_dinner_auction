@@ -26,10 +26,10 @@ class AuctionsController < ApplicationController
   def create
     errors = false
     if params[:multi_winner]
-      user_numbers = params[:auction][:user_numbers].gsub(' ','').split(',')
-      user_numbers.each do |user_number|
+      user_ids = params[:auction][:user_ids].gsub(' ','').split(',')
+      user_ids.each do |user_id|
         @auction = Auction.new(auction_params)
-        @auction.user_id = User.find_by(number: user_number).id
+        @auction.user_id = user_id
         errors = true unless @auction.save
       end
     else
