@@ -9,26 +9,32 @@ table, th, td {
 
 <h1>Listing users</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>NUMBER</th>
-      <th>Name</th>
-      <th>Paid</th>
-    </tr>
-  </thead>
+<div>
+  <div style="display:inline-block;">
+    <table>
+      <thead>
+        <tr>
+          <th>NUMBER</th>
+          <th>Name</th>
+          <th>Paid</th>
+        </tr>
+      </thead>
 
-  <tbody>
-    <% @users.each do |user| %>
-      <tr class="<%= cycle('even', 'odd') %>">
-        <td><%= user.number %></td>
+      <tbody>
+        <% @users.each do |user| %>
+          <tr class="<%= cycle('even', 'odd') %>">
+            <td><%= user.number %></td>
 
-        <td><%= link_to user.name, user %></td>
-        <td><%= user.paid ? "Paid" : "Unpaid" %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
+            <td><%= link_to user.name, user %></td>
+            <td><%= user.paid? ? "Paid" : "Unpaid" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div style="display:inline-block; vertical-align: top;">
+    <h3>Last number: </h3><h1> <%= Rails.cache.read 'last_user_number' %> </h1
+  </div>
+</div>
 <br>
 

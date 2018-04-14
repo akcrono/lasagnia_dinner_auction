@@ -2,6 +2,8 @@ class User < ActiveRecord::Base
   has_many :auctions
   validates :name, presence: true
 
+  alias_method :number, :id
+
   def self.is_name?(search)
     search.length == 0 || search.length != search.to_i.to_s.length
   end
@@ -11,7 +13,7 @@ class User < ActiveRecord::Base
       if self.is_name?(search)
         where('lower(name) LIKE lower(?)', "%#{search}%")
       else
-        where(number: search)
+        where(id: search)
       end
     else
       all

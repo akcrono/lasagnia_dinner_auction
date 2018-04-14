@@ -26,11 +26,8 @@ ActiveRecord::Schema.define(version: 20160424224540) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "number",                       null: false
     t.boolean  "paid",         default: false
     t.string   "phone_number"
   end
-
-  add_index "users", ["number"], name: "index_users_on_number", unique: true
 
 end
