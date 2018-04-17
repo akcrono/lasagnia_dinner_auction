@@ -36,5 +36,7 @@ table, th, td {
     <h3>Last number: </h3><h1> <%= Rails.cache.read 'last_user_number' %> </h1
   </div>
 </div>
+
+<%= button_to 'Download csv summary', generate_summary_csv_path, method: :get %>
 <br>
 

@@ -20,6 +20,22 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.to_csv
+    require 'csv'
+    CSV.generate(headers: true) do |csv|
+      csv << ['number', 'name', 'phone number', 'number of auctions', 'total due', 'paid?']
+
+      User.includes(:auctions).find_each do |user|
+        csv << [user.id,
+                user.name,
+                user.phone_number,
+                user.auctions.count,
+                user.total_due,
+                user.paid?]
+      end
+    end
+  end
+
   def phone_number
     return '' if self.attributes['phone_number'].empty?
     pn = self.attributes['phone_number'].gsub("-","").split('')
