@@ -1,4 +1,4 @@
-class CreateAuctions < ActiveRecord::Migration
+class CreateAuctions < ActiveRecord::Migration[5.2]
   def change
     create_table :auctions do |t|
       t.integer :user_id, null: false
