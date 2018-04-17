@@ -4,7 +4,10 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.search(params[:search]).order(:id)
+    @users = User.includes(:auctions).search(params[:search]).paginate(page: params[:page], per_page: 100)
+    if @users.count == 1 && params[:page].nil?
+      redirect_to user_path(@users.first)
+    end
   end
 
   # GET /users/1
@@ -31,8 +34,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        Rails.cache.write 'last_user_number', @user.id 
-        format.html { redirect_to users_url }
+        format.html { redirect_to "/numbers/#{@user.id}" }
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new }
@@ -90,7 +92,7 @@ class UsersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      # @user = User.find(params[:id])
+      @user = User.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

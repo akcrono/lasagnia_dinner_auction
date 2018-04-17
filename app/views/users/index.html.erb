@@ -31,9 +31,7 @@ table, th, td {
         <% end %>
       </tbody>
     </table>
-  </div>
-  <div style="display:inline-block; vertical-align: top;">
-    <h3>Last number: </h3><h1> <%= Rails.cache.read 'last_user_number' %> </h1
+    <%= will_paginate @users %>
   </div>
 </div>
 
