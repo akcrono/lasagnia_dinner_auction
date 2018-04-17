@@ -5,7 +5,8 @@ class UsersController < ApplicationController
   # GET /users.json
   def index
     @users = User.includes(:auctions).search(params[:search]).paginate(page: params[:page], per_page: 100)
-    if @users.count == 1 && params[:page].nil?
+
+    if @users.count == 1 && params[:page].nil? && params[:search].present?
       redirect_to user_path(@users.first)
     end
   end
