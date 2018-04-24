@@ -86,10 +86,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def generate_summary_csv
-    send_data User.to_csv, filename: "auction-results-#{Date.today}.csv"
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user

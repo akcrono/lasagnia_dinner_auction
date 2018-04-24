@@ -1,11 +1,15 @@
 Rails.application.routes.draw do
+  get 'reports/index'
   resources :auctions
 
   resources :users
 
+  resources :reports, only: :index
+
   root 'users#index'
 
-  get 'generate_summary_csv', to: 'users#generate_summary_csv'
+  get 'generate_summary_csv', to: 'reports#generate_summary_csv'
+  get 'generate_itemized_csv', to: 'reports#generate_itemized_csv'
 
   get '/numbers/:numbers', to: 'numbers#show'
 

@@ -1,4 +1,8 @@
+require 'csv'
+
 class User < ActiveRecord::Base
+  extend ActionView::Helpers::NumberHelper
+
   has_many :auctions
   validates :name, presence: true
 
@@ -20,19 +24,40 @@ class User < ActiveRecord::Base
     end
   end
 
-  def self.to_csv
-    require 'csv'
+  def self.to_summary_csv
     CSV.generate(headers: true) do |csv|
-      csv << ['number', 'name', 'phone number', 'number of auctions', 'total due', 'paid?']
-
+      csv << ['number', 'name', 'phone number', 'number of auctions', 'total purchased', 'total due', 'paid?']
+      running_total = 0
       User.includes(:auctions).find_each do |user|
+        running_total += user.total_purchased
         csv << [user.id,
                 user.name,
                 user.phone_number,
                 user.auctions.count,
-                user.total_due,
+                number_to_currency(user.total_purchased),
+                number_to_currency(user.total_due),
                 user.paid?]
       end
+      csv << ["total", number_to_currency(running_total)]
+    end
+  end
+
+  def self.to_itemized_csv
+    CSV.generate(headers: true) do |csv|
+      csv << ['Participant (number)', 'price', 'item name', 'paid?']
+
+
+      running_total = 0
+      User.includes(:auctions).find_each do |user|
+        running_total += user.total_purchased
+        user.auctions.each_with_index do |auction, i|
+          csv << [i == 0 ? "#{user.name} (#{user.id})" : '',
+                  number_to_currency(auction.value),
+                  auction.name.present? ? auction.name :  "UNNAMED AUCTION",
+                  auction.paid?]
+        end
+      end
+    csv << ["total", number_to_currency(running_total)]
     end
   end
 
@@ -43,10 +68,19 @@ class User < ActiveRecord::Base
   end
 
   def paid?
-    self.auctions.select{|auction| !auction.paid}.empty?
+    self.unpaid_auctions.empty?
   end
 
   def total_due
-    self.auctions.select{|auction| !auction.paid}.inject(0){|mem, act| mem += act.value}
+    # Bypass scope to make use of association cache
+    self.unpaid_auctions.inject(0){|mem, act| mem += act.value}
+  end
+
+  def total_purchased
+    self.auctions.inject(0){|mem, act| mem += act.value}
+  end
+
+  def unpaid_auctions
+    self.auctions.select{|auction| !auction.paid}
   end
 end
