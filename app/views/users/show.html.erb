@@ -58,7 +58,7 @@
       <td class="grid-line"><%= auction.name == "" ? "NO NAME" : auction.name %></td>
       <td class="grid-line">$<%= sprintf("%.2f",auction.value) %></td>
       <td class="grid-line"><%= auction.paid? ? "Paid" : "Not Paid" %></td>
-      <td class="field_with_errors"> <%= link_to 'delete', auction_path(auction), method: :delete, data: { confirm: 'Are you certain you want to delete this?' }
+      <td style="margin-left: 4px" class="field_with_errors"> <%= link_to 'delete', auction_path(auction), method: :delete, data: { confirm: 'Are you certain you want to delete this?' }
  %> </td>
     </tr>
   <% end %>
