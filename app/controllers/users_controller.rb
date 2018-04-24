@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :send_csv_email]
 
   # GET /users
   # GET /users.json
@@ -86,14 +86,23 @@ class UsersController < ApplicationController
     end
   end
 
+  def send_csv_email
+    ParticipantMailer.with(user: @user).auction_summary(user_params[:email]).deliver
+    flash[:notice] = "Email sent to #{user_params[:email]} for participant #{@user.name}"
+  rescue => e
+    flash[:error] = "Email failed: #{e.message}"
+  ensure
+    redirect_to @user
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      @user = User.find(params[:id])
+      @user = User.find(user_params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:name, :phone_number)
+      params.permit(:name, :phone_number, :id, :email)
     end
 end

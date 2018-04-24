@@ -53,7 +53,7 @@ class User < ActiveRecord::Base
         user.auctions.each_with_index do |auction, i|
           csv << [i == 0 ? "#{user.name} (#{user.id})" : '',
                   number_to_currency(auction.value),
-                  auction.name.present? ? auction.name :  "UNNAMED AUCTION",
+                  auction.name.present? ? auction.name : "NO NAME",
                   auction.paid?]
         end
       end
