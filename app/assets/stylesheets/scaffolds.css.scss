@@ -45,6 +45,12 @@ div {
   display: table;
 }
 
+.grid-line{
+   border: 1px solid black; // try border-left and border-right
+   height: 9px;
+   // play with positions - fixed ect..
+}
+
 #error_explanation {
   width: 450px;
   border: 2px solid red;
