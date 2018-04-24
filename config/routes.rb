@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 
   get 'generate_summary_csv', to: 'reports#generate_summary_csv'
   get 'generate_itemized_csv', to: 'reports#generate_itemized_csv'
-
+  post 'send_csv_email', to: 'users#send_csv_email'
   get '/numbers/:numbers', to: 'numbers#show'
 
   # The priority is based upon order of creation: first created -> highest priority.

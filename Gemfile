@@ -12,6 +12,7 @@ gem 'sass-rails'
 gem 'uglifier'
 # Use CoffeeScript for .js.coffee assets and views
 gem 'coffee-rails'
+
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer',  platforms: :ruby
 
@@ -31,6 +32,8 @@ gem 'pry'
 gem 'pry-rails'
 
 gem 'will_paginate', '~> 3.1.0'
+
+gem 'dotenv-rails', groups: [:development, :test]
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

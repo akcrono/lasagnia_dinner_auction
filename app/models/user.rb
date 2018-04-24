@@ -61,6 +61,22 @@ class User < ActiveRecord::Base
     end
   end
 
+  def to_csv
+    CSV.generate(headers: true) do |csv|
+      csv << ['item name', 'price', 'paid?']
+      auctions.each do |auction|
+        csv << [auction.name, self.class.number_to_currency(auction.value), auction.paid?]
+      end
+      csv << ['']
+      csv << ["total purchased", self.class.number_to_currency(total_purchased)]
+      csv << ["total due", self.class.number_to_currency(total_due)]
+    end
+  end
+
+  def csv_filename
+    "#{name}(#{number})-#{Date.today}.csv"
+  end
+
   def phone_number
     return '' unless self.attributes['phone_number'].present?
     pn = self.attributes['phone_number'].gsub("-","").split('')
