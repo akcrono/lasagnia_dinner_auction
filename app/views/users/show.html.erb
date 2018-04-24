@@ -18,7 +18,9 @@
 </p>
 
 <% if @user.paid? %>
-  <h3 style="color: red">USER PAID</h3>
+  <% if @auctions.present? %>
+    <h3 style="color: red">USER PAID</h3>
+  <% end %>
   <%= form_for @user, url: {action: "update"} do |f| %>
     <%= hidden_field(:paying_user, false) %>
     <%= f.submit "Unpay"%>
