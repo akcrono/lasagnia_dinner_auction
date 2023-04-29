@@ -1,0 +1,18 @@
+databases:
+  - name: auction
+    databaseName: auction
+    user: auction
+
+services:
+  - type: web
+    name: auction
+    env: ruby
+    buildCommand: "./bin/render-build.sh"
+    startCommand: "bundle exec puma -C config/puma.rb"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: auction
+          property: connectionString
+      - key: RAILS_MASTER_KEY
+        sync: false
