@@ -1,6 +1,4 @@
-<h1>
-  <%= @user.number %>
-</h1>
+<h1> <%= @user.number %> </h1>
 
 <p>
   <strong>Name:</strong>
@@ -16,6 +14,10 @@
   <strong>Total:</strong>
   $<%= sprintf("%.2f",@total) %>
 </p>
+
+<%= link_to 'Edit user', edit_user_path(@user), style: "color:red;" %>
+
+<br> <br>
 
 <% if @user.paid? %>
   <% if @auctions.present? %>
@@ -33,7 +35,7 @@
 <% end %>
 
 <br>
-
+<h3> Create Auction </h3>
 <%= form_for @auction do |f| %>
   <%= hidden_field(:user, :id) %>
 
@@ -48,7 +50,9 @@
 
   <%= f.submit %>
 <% end %>
-<p> </p>
+
+<br>
+<h3> Current Auction </h3>
 <table>
   <th>Name</th>
   <th>Price</th>
@@ -63,9 +67,9 @@
     </tr>
   <% end %>
 </table>
-<p> </p>
-<%= link_to 'Edit user', edit_user_path(@user) %>
 
+<br>
+<h3> Email Receipt (In testing, not functional) </h3>
 <% if @auctions.present? %>
   <div>
     <%= form_tag send_csv_email_path, method: :post do %>
