@@ -87,8 +87,8 @@ class UsersController < ApplicationController
   end
 
   def send_csv_email
-    ParticipantMailer.with(user: @user).auction_summary(user_params[:email]).deliver
-    flash[:notice] = "Email sent to #{user_params[:email]} for participant #{@user.name}"
+    ParticipantMailer.with(user: @user).auction_summary(report_email).deliver
+    flash[:notice] = "Email sent to #{report_email} for participant #{@user.name}"
   rescue => e
     flash[:error] = "Email failed: #{e.message}"
   ensure
@@ -96,13 +96,17 @@ class UsersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user
+    @user = User.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def user_params
-      params.require(:user).permit(:name, :phone_number, :id, :email)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def user_params
+    params.require(:user).permit(:name, :phone_number, :email)
+  end
+
+  def report_email
+    params.require(:email)
+  end
 end

@@ -1,5 +1,5 @@
 class ParticipantMailer < ApplicationMailer
-  default from: 'basic.auction@example.com'
+  default from: 'basic.auction@gmail.com'
   
   def auction_summary(email)
     @user = params[:user]
