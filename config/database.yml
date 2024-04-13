@@ -35,12 +35,19 @@ default: &default
   username: myapp
   password: password1
 
+dev_default: &dev_default
+  adapter: sqlite3
+  encoding: utf8
+  pool: 5
+  timeout: 5000
+  verbosity: quiet
+
 development:
-  <<: *default
+  <<: *dev_default
   database: auction_development
 
 test:
-  <<: *default
+  <<: *dev_default
   database: auction_test
 
 production:

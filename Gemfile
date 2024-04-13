@@ -36,6 +36,15 @@ gem 'will_paginate'
 
 gem 'dotenv-rails', groups: [:development, :test]
 
+# I want this in other envs so i can generate data if needed
+gem 'factory_bot_rails'
+
+group :development, :test do
+  gem 'sqlite3' # legacy support only
+  gem 'rspec-rails'
+  gem 'capybara'
+end
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
