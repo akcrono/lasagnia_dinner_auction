@@ -31,10 +31,13 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(user_params)
+    unpaid_dinners_count = user_params[:unpaid_dinners].to_i
+    @user = User.new(user_params.except(:unpaid_dinners))
 
     respond_to do |format|
       if @user.save
+        @user.track_unpaid_dinners!(unpaid_dinners_count)
+
         format.html { redirect_to "/numbers/#{@user.id}" }
         format.json { render :show, status: :created, location: @user }
       else
@@ -103,7 +106,7 @@ class UsersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    params.require(:user).permit(:name, :phone_number, :email)
+    params.require(:user).permit(:name, :phone_number, :email, :unpaid_dinners)
   end
 
   def report_email

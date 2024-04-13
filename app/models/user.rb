@@ -61,6 +61,12 @@ class User < ActiveRecord::Base
     end
   end
 
+  def track_unpaid_dinners!(unpaid_dinners_count)
+    unpaid_dinners_count.times do
+      Auction.create(user: self, name: 'Unpaid dinner', value: Auction.dinner_cost)
+    end
+  end
+
   def to_csv
     CSV.generate(headers: true) do |csv|
       csv << ['item name', 'price', 'paid?']
