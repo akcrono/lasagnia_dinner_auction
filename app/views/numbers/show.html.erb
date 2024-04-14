@@ -1,6 +1,6 @@
 <div>Paddle number:</div>	
 <br>
-<div style="font-size: 75px"><%= @number %></div>
+<div style="font-size: 75px"><%= link_to "#{@number}", "/users/#{@number}" %></div>
 <br>
 <br>
 <div style="font-size: 20px"><%= link_to "create another user", new_user_path %></div>
