@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2016_04_24_224540) do
+ActiveRecord::Schema[7.2].define(version: 2016_04_24_224540) do
   create_table "auctions", force: :cascade do |t|
     t.integer "user_id", null: false
     t.float "value", null: false
@@ -27,5 +27,4 @@ ActiveRecord::Schema[7.0].define(version: 2016_04_24_224540) do
     t.boolean "paid", default: false
     t.string "phone_number"
   end
-
 end
