@@ -6,7 +6,7 @@ class Auction < ActiveRecord::Base
   attr_accessor :quantity, :user_ids
 
   def self.dinner_cost
-    20
+    25
     # TODO persist somewhere
   end
 end
